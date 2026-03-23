@@ -2,14 +2,21 @@ import * as Phaser from "phaser";
 import { getSocket } from "../../../lib/socket";
 import { GameState, PlayerState, ARENA_WIDTH, ARENA_HEIGHT } from "../../../lib/types";
 
+interface PlayerVisual {
+  container: Phaser.GameObjects.Container;
+  sprite: Phaser.GameObjects.Sprite;
+  nameText: Phaser.GameObjects.Text;
+  healthBg: Phaser.GameObjects.Rectangle;
+  healthBar: Phaser.GameObjects.Rectangle;
+}
+
 export class GameScene extends Phaser.Scene {
   private socket: any;
   private roomId: string = "";
   private localPlayerId: string = "";
-  private playerSprites: Map<string, Phaser.GameObjects.Container> = new Map();
+  private playerVisuals: Map<string, PlayerVisual> = new Map();
   private zoneGraphics!: Phaser.GameObjects.Graphics;
   private arenaGraphics!: Phaser.GameObjects.Graphics;
-  private cursors: any;
   private keys: any;
   private lastState: GameState | null = null;
   private attacking: boolean = false;
@@ -81,10 +88,6 @@ export class GameScene extends Phaser.Scene {
       }
     });
 
-    this.socket.on("game:ended", () => {
-      // Results page handles this
-    });
-
     // Start UI scene in parallel
     if (!this.scene.isActive("UIScene")) {
       this.scene.launch("UIScene");
@@ -92,7 +95,6 @@ export class GameScene extends Phaser.Scene {
   }
 
   update() {
-    // Send input to server
     const direction = { x: 0, y: 0 };
     if (this.keys.W.isDown) direction.y = -1;
     if (this.keys.S.isDown) direction.y = 1;
@@ -116,25 +118,25 @@ export class GameScene extends Phaser.Scene {
     const currentIds = new Set(Object.keys(state.players));
 
     // Remove sprites for disconnected players
-    for (const [id, container] of this.playerSprites) {
+    for (const [id, visual] of this.playerVisuals) {
       if (!currentIds.has(id)) {
-        container.destroy();
-        this.playerSprites.delete(id);
+        visual.container.destroy();
+        this.playerVisuals.delete(id);
       }
     }
 
     // Update or create sprites
     for (const [id, player] of Object.entries(state.players)) {
-      let container = this.playerSprites.get(id);
+      let visual = this.playerVisuals.get(id);
 
-      if (!container) {
-        container = this.createPlayerSprite(id, player);
-        this.playerSprites.set(id, container);
+      if (!visual) {
+        visual = this.createPlayerVisual(id, player);
+        this.playerVisuals.set(id, visual);
       }
 
       // Smooth movement
       this.tweens.add({
-        targets: container,
+        targets: visual.container,
         x: player.x,
         y: player.y,
         duration: 50,
@@ -142,28 +144,23 @@ export class GameScene extends Phaser.Scene {
       });
 
       // Update sprite texture based on state
-      const sprite = container.getAt(0) as Phaser.GameObjects.Sprite;
       if (!player.alive) {
-        sprite.setTexture("player_dead");
-        sprite.setAlpha(0.4);
+        visual.sprite.setTexture("player_dead");
+        visual.sprite.setAlpha(0.4);
       } else if (id === this.localPlayerId) {
-        sprite.setTexture("player_local");
-        sprite.setAlpha(1);
+        visual.sprite.setTexture("player_local");
+        visual.sprite.setAlpha(1);
       } else {
-        sprite.setTexture("player_enemy");
-        sprite.setAlpha(1);
+        visual.sprite.setTexture("player_enemy");
+        visual.sprite.setAlpha(1);
       }
 
       // Update health bar
-      const healthBg = container.getAt(2) as Phaser.GameObjects.Rectangle;
-      const healthBar = container.getAt(3) as Phaser.GameObjects.Rectangle;
-      if (healthBg && healthBar) {
-        const healthWidth = (player.health / 100) * 30;
-        healthBar.setSize(healthWidth, 4);
-        healthBar.setX(-15 + healthWidth / 2);
-        const color = player.health > 50 ? 0x22c55e : player.health > 25 ? 0xeab308 : 0xef4444;
-        healthBar.setFillStyle(color);
-      }
+      const healthWidth = (player.health / 100) * 30;
+      visual.healthBar.setSize(healthWidth, 4);
+      visual.healthBar.setX(-15 + healthWidth / 2);
+      const color = player.health > 50 ? 0x22c55e : player.health > 25 ? 0xeab308 : 0xef4444;
+      visual.healthBar.setFillStyle(color);
 
       // Show attack visual
       if (player.attackCooldown > 400 && player.alive) {
@@ -172,7 +169,7 @@ export class GameScene extends Phaser.Scene {
     }
   }
 
-  private createPlayerSprite(id: string, player: PlayerState): Phaser.GameObjects.Container {
+  private createPlayerVisual(id: string, player: PlayerState): PlayerVisual {
     const isLocal = id === this.localPlayerId;
     const texture = !player.alive ? "player_dead" : isLocal ? "player_local" : "player_enemy";
 
@@ -185,11 +182,12 @@ export class GameScene extends Phaser.Scene {
     }).setOrigin(0.5);
 
     const healthBg = this.add.rectangle(0, 20, 32, 4, 0x333333);
-    const healthBar = this.add.rectangle(-15 + (player.health / 100) * 15, 20, (player.health / 100) * 30, 4, 0x22c55e);
+    const healthBar = this.add.rectangle(0, 20, 30, 4, 0x22c55e);
 
     const container = this.add.container(player.x, player.y, [sprite, nameText, healthBg, healthBar]);
     container.setDepth(10);
-    return container;
+
+    return { container, sprite, nameText, healthBg, healthBar };
   }
 
   private updateZone(state: GameState) {
@@ -199,13 +197,9 @@ export class GameScene extends Phaser.Scene {
 
     // Draw danger zone (outside safe area) as red overlay
     this.zoneGraphics.fillStyle(0xff0000, 0.15);
-    // Top
     this.zoneGraphics.fillRect(0, 0, ARENA_WIDTH, Math.max(0, centerY - currentRadius));
-    // Bottom
     this.zoneGraphics.fillRect(0, centerY + currentRadius, ARENA_WIDTH, ARENA_HEIGHT - (centerY + currentRadius));
-    // Left
     this.zoneGraphics.fillRect(0, centerY - currentRadius, Math.max(0, centerX - currentRadius), currentRadius * 2);
-    // Right
     this.zoneGraphics.fillRect(centerX + currentRadius, centerY - currentRadius, ARENA_WIDTH - (centerX + currentRadius), currentRadius * 2);
 
     // Draw safe zone border circle

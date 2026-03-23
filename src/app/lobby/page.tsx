@@ -37,7 +37,7 @@ function LobbyContent() {
       setCurrentRoom(room);
     });
 
-    s.on("game:started", (state: any) => {
+    s.on("game:started", () => {
       const roomId = currentRoomRef.current?.id || "";
       router.push(`/game?name=${encodeURIComponent(playerName)}&roomId=${encodeURIComponent(roomId)}`);
     });
