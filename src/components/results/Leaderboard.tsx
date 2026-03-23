@@ -8,15 +8,15 @@ interface LeaderboardProps {
 
 const trophyColors = ["text-yellow-400", "text-gray-400", "text-amber-600"];
 const bgColors = ["bg-yellow-400/10 border-yellow-400/30", "bg-gray-400/10 border-gray-400/30", "bg-amber-600/10 border-amber-600/30"];
-const labels = ["1st Place", "2nd Place", "3rd Place"];
+const labels = ["1o Lugar", "2o Lugar", "3o Lugar"];
 
 export default function Leaderboard({ result }: LeaderboardProps) {
   return (
     <div className="space-y-4">
       <div className="text-center mb-6">
-        <h2 className="text-2xl font-bold text-white">Match Results</h2>
+        <h2 className="text-2xl font-bold text-white">Resultado da Partida</h2>
         <p className="text-gray-400 mt-1">
-          Prize Pool: <span className="text-green-400 font-semibold">${result.prizePool}</span>
+          Premiacao: <span className="text-green-400 font-semibold">${result.prizePool}</span>
         </p>
       </div>
 
@@ -37,7 +37,7 @@ export default function Leaderboard({ result }: LeaderboardProps) {
             </div>
             <div className="text-right">
               <p className="text-green-400 font-bold text-xl">${entry.prize}</p>
-              <p className="text-gray-400 text-sm">{entry.kills} kills</p>
+              <p className="text-gray-400 text-sm">{entry.kills} abates</p>
             </div>
           </div>
         </div>

@@ -40,21 +40,21 @@ export default function AdminPage() {
 
   return (
     <div className="min-h-screen p-6 max-w-6xl mx-auto">
-      <h1 className="text-3xl font-bold text-white mb-2">Admin Panel</h1>
-      <p className="text-gray-400 mb-8">Battle Royale Server Management</p>
+      <h1 className="text-3xl font-bold text-white mb-2">Painel Administrativo</h1>
+      <p className="text-gray-400 mb-8">Gerenciamento do Servidor Battle Royale</p>
 
       <div className="grid grid-cols-3 gap-4 mb-8">
         <div className="bg-gray-800 border border-gray-700 rounded-xl p-4 text-center">
           <p className="text-3xl font-bold text-blue-400">{rooms.length}</p>
-          <p className="text-sm text-gray-400">Total Rooms</p>
+          <p className="text-sm text-gray-400">Total de Salas</p>
         </div>
         <div className="bg-gray-800 border border-gray-700 rounded-xl p-4 text-center">
           <p className="text-3xl font-bold text-green-400">{totalPlayers}</p>
-          <p className="text-sm text-gray-400">Total Players</p>
+          <p className="text-sm text-gray-400">Total de Jogadores</p>
         </div>
         <div className="bg-gray-800 border border-gray-700 rounded-xl p-4 text-center">
           <p className="text-3xl font-bold text-yellow-400">{activePlaying}</p>
-          <p className="text-sm text-gray-400">Active Matches</p>
+          <p className="text-sm text-gray-400">Partidas Ativas</p>
         </div>
       </div>
 
@@ -62,19 +62,19 @@ export default function AdminPage() {
         <table className="w-full">
           <thead>
             <tr className="border-b border-gray-700 text-gray-400 text-sm">
-              <th className="text-left px-4 py-3">Room</th>
+              <th className="text-left px-4 py-3">Sala</th>
               <th className="text-left px-4 py-3">Status</th>
-              <th className="text-left px-4 py-3">Players</th>
-              <th className="text-left px-4 py-3">Entry Fee</th>
-              <th className="text-left px-4 py-3">Prize Pool</th>
-              <th className="text-left px-4 py-3">Player List</th>
+              <th className="text-left px-4 py-3">Jogadores</th>
+              <th className="text-left px-4 py-3">Taxa de Entrada</th>
+              <th className="text-left px-4 py-3">Premiacao</th>
+              <th className="text-left px-4 py-3">Lista de Jogadores</th>
             </tr>
           </thead>
           <tbody>
             {rooms.length === 0 ? (
               <tr>
                 <td colSpan={6} className="text-center py-8 text-gray-500">
-                  No active rooms
+                  Nenhuma sala ativa
                 </td>
               </tr>
             ) : (
@@ -101,7 +101,7 @@ export default function AdminPage() {
                     {room.players.length}/{room.maxPlayers}
                   </td>
                   <td className="px-4 py-3 text-yellow-400">
-                    {room.entryFee > 0 ? `$${room.entryFee}` : "Free"}
+                    {room.entryFee > 0 ? `$${room.entryFee}` : "Gratis"}
                   </td>
                   <td className="px-4 py-3 text-green-400">${room.prizePool}</td>
                   <td className="px-4 py-3 text-sm text-gray-400">

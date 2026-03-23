@@ -19,7 +19,7 @@ export default function Home() {
         <h1 className="text-6xl font-bold bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 bg-clip-text text-transparent">
           BATTLE ROYALE
         </h1>
-        <p className="text-gray-400 mt-3 text-lg">Last one standing wins the prize</p>
+        <p className="text-gray-400 mt-3 text-lg">O ultimo em pe leva o premio</p>
       </div>
 
       <form onSubmit={handleEnter} className="w-full max-w-sm space-y-4">
@@ -27,7 +27,7 @@ export default function Home() {
           type="text"
           value={playerName}
           onChange={(e) => setPlayerName(e.target.value)}
-          placeholder="Enter your name..."
+          placeholder="Digite seu nome..."
           className="w-full bg-gray-800 border border-gray-700 rounded-xl px-4 py-3 text-white text-center text-lg focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
           maxLength={20}
           required
@@ -37,13 +37,13 @@ export default function Home() {
           type="submit"
           className="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-xl font-semibold text-lg transition-colors"
         >
-          Enter Lobby
+          Entrar no Lobby
         </button>
       </form>
 
       <div className="mt-12 text-center text-gray-600 text-sm space-y-1">
-        <p>WASD to move | Click to attack</p>
-        <p>Stay inside the zone | Top 3 win prizes</p>
+        <p>WASD para mover | Clique para atacar</p>
+        <p>Fique dentro da zona | Top 3 ganham premios</p>
       </div>
     </div>
   );

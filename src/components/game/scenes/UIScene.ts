@@ -27,21 +27,21 @@ export class UIScene extends Phaser.Scene {
     this.healthBar.setScrollFactor(0);
     this.healthBar.setDepth(20);
 
-    this.healthText = this.add.text(20, 20, "HP: 100", {
+    this.healthText = this.add.text(20, 20, "Vida: 100", {
       fontSize: "14px",
       color: "#22c55e",
       stroke: "#000",
       strokeThickness: 2,
     }).setScrollFactor(0);
 
-    this.killsText = this.add.text(20, 50, "Kills: 0", {
+    this.killsText = this.add.text(20, 50, "Abates: 0", {
       fontSize: "14px",
       color: "#fbbf24",
       stroke: "#000",
       strokeThickness: 2,
     }).setScrollFactor(0);
 
-    this.aliveText = this.add.text(20, 75, "Alive: -", {
+    this.aliveText = this.add.text(20, 75, "Vivos: -", {
       fontSize: "14px",
       color: "#ffffff",
       stroke: "#000",
@@ -59,7 +59,7 @@ export class UIScene extends Phaser.Scene {
     this.add.text(
       this.cameras.main.width - 20,
       this.cameras.main.height - 20,
-      "WASD: Move | Click: Attack",
+      "WASD: Mover | Clique: Atacar",
       {
         fontSize: "12px",
         color: "#9ca3af",
@@ -72,8 +72,8 @@ export class UIScene extends Phaser.Scene {
     this.socket.on("game:state", (state: GameState) => {
       const player = state.players[localId];
       if (player) {
-        this.healthText.setText(`HP: ${Math.ceil(player.health)}`);
-        this.killsText.setText(`Kills: ${player.kills}`);
+        this.healthText.setText(`Vida: ${Math.ceil(player.health)}`);
+        this.killsText.setText(`Abates: ${player.kills}`);
 
         // Update health bar
         this.healthBar.clear();
@@ -84,8 +84,8 @@ export class UIScene extends Phaser.Scene {
         this.healthBar.fillRect(130, 22, (player.health / 100) * 70, 12);
       }
 
-      this.aliveText.setText(`Alive: ${state.playersAlive}`);
-      this.zoneText.setText(`Zone Phase: ${Math.ceil(state.timeRemaining)}s`);
+      this.aliveText.setText(`Vivos: ${state.playersAlive}`);
+      this.zoneText.setText(`Fase da Zona: ${Math.ceil(state.timeRemaining)}s`);
     });
   }
 }

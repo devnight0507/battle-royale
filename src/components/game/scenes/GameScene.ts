@@ -232,7 +232,7 @@ export class GameScene extends Phaser.Scene {
   }
 
   private showDeathMessage(killerId: string) {
-    const msg = killerId === "zone" ? "Eliminated by the zone!" : "You were eliminated!";
+    const msg = killerId === "zone" ? "Eliminado pela zona!" : "Voce foi eliminado!";
     const text = this.add.text(
       this.cameras.main.centerX,
       this.cameras.main.centerY,

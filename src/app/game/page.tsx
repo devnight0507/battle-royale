@@ -8,7 +8,7 @@ import { MatchResult } from "../../lib/types";
 
 const PhaserGame = dynamic(
   () => import("../../components/game/PhaserGame"),
-  { ssr: false, loading: () => <div className="w-screen h-screen bg-black flex items-center justify-center text-white">Loading game...</div> }
+  { ssr: false, loading: () => <div className="w-screen h-screen bg-black flex items-center justify-center text-white">Carregando jogo...</div> }
 );
 
 function GameContent() {
@@ -35,7 +35,7 @@ function GameContent() {
   if (!roomId) {
     return (
       <div className="w-screen h-screen bg-black flex items-center justify-center text-white">
-        <p>No room ID found. Go back to lobby.</p>
+        <p>Sala nao encontrada. Volte ao lobby.</p>
       </div>
     );
   }

@@ -22,7 +22,7 @@ function ResultsContent() {
   if (!result) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <p className="text-gray-400">No match data found</p>
+        <p className="text-gray-400">Dados da partida nao encontrados</p>
       </div>
     );
   }
@@ -36,7 +36,7 @@ function ResultsContent() {
           onClick={() => router.push(`/lobby?name=${encodeURIComponent(playerName)}`)}
           className="w-full mt-8 bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-xl font-semibold text-lg transition-colors"
         >
-          Back to Lobby
+          Voltar ao Lobby
         </button>
       </div>
     </div>

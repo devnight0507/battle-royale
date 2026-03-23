@@ -27,19 +27,19 @@ export default function RoomCard({ room, onJoin }: RoomCardProps) {
 
       <div className="space-y-2 text-sm text-gray-400">
         <div className="flex justify-between">
-          <span>Players</span>
+          <span>Jogadores</span>
           <span className="text-white">
             {room.players.length} / {room.maxPlayers}
           </span>
         </div>
         <div className="flex justify-between">
-          <span>Entry Fee</span>
+          <span>Taxa de Entrada</span>
           <span className="text-yellow-400">
-            {room.entryFee > 0 ? `$${room.entryFee}` : "Free"}
+            {room.entryFee > 0 ? `$${room.entryFee}` : "Gratis"}
           </span>
         </div>
         <div className="flex justify-between">
-          <span>Prize Pool</span>
+          <span>Premiacao</span>
           <span className="text-green-400">${room.prizePool}</span>
         </div>
       </div>
@@ -49,13 +49,13 @@ export default function RoomCard({ room, onJoin }: RoomCardProps) {
           onClick={() => onJoin(room.id)}
           className="w-full mt-4 bg-blue-600 hover:bg-blue-700 text-white py-2 rounded-lg font-medium transition-colors"
         >
-          Join Room {room.entryFee > 0 ? `($${room.entryFee})` : ""}
+          Entrar {room.entryFee > 0 ? `($${room.entryFee})` : ""}
         </button>
       )}
 
       {room.status === "playing" && (
         <div className="w-full mt-4 bg-gray-700 text-gray-400 py-2 rounded-lg font-medium text-center">
-          In Progress
+          Em Andamento
         </div>
       )}
     </div>

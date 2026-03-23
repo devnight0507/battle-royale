@@ -6,7 +6,7 @@ const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Battle Royale",
-  description: "Online Battle Royale Game",
+  description: "Jogo Battle Royale Online",
 };
 
 export default function RootLayout({

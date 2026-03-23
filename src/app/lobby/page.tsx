@@ -105,14 +105,14 @@ function LobbyContent() {
           <h2 className="text-2xl font-bold text-white mb-2">{currentRoom.name}</h2>
           <div className="flex gap-4 text-sm text-gray-400 mb-6">
             <span>
-              Entry: {currentRoom.entryFee > 0 ? `$${currentRoom.entryFee}` : "Free"}
+              Entrada: {currentRoom.entryFee > 0 ? `$${currentRoom.entryFee}` : "Gratis"}
             </span>
-            <span>Prize Pool: ${currentRoom.prizePool}</span>
+            <span>Premiacao: ${currentRoom.prizePool}</span>
           </div>
 
           <div className="mb-6">
             <h3 className="text-sm text-gray-400 mb-3">
-              Players ({currentRoom.players.length}/{currentRoom.maxPlayers})
+              Jogadores ({currentRoom.players.length}/{currentRoom.maxPlayers})
             </h3>
             <div className="space-y-2">
               {currentRoom.players.map((p) => (
@@ -124,7 +124,7 @@ function LobbyContent() {
                   {p.name}
                   {p.id === currentRoom.creatorId && (
                     <span className="text-xs bg-yellow-500/20 text-yellow-400 px-2 py-0.5 rounded ml-auto">
-                      Host
+                      Anfitriao
                     </span>
                   )}
                 </div>
@@ -137,19 +137,19 @@ function LobbyContent() {
               onClick={handleLeaveRoom}
               className="flex-1 bg-gray-700 hover:bg-gray-600 text-white py-2 rounded-lg transition-colors"
             >
-              Leave
+              Sair
             </button>
             {isCreator && currentRoom.players.length >= 2 && (
               <button
                 onClick={handleStartGame}
                 className="flex-1 bg-green-600 hover:bg-green-700 text-white py-2 rounded-lg font-medium transition-colors"
               >
-                Start Game
+                Iniciar Jogo
               </button>
             )}
             {isCreator && currentRoom.players.length < 2 && (
               <div className="flex-1 bg-gray-700 text-gray-400 py-2 rounded-lg text-center">
-                Need 2+ players
+                Minimo 2 jogadores
               </div>
             )}
           </div>
@@ -163,23 +163,23 @@ function LobbyContent() {
     <div className="min-h-screen p-6 max-w-4xl mx-auto">
       <div className="flex justify-between items-center mb-8">
         <div>
-          <h1 className="text-3xl font-bold text-white">Game Lobby</h1>
+          <h1 className="text-3xl font-bold text-white">Lobby do Jogo</h1>
           <p className="text-gray-400 mt-1">
-            Playing as <span className="text-blue-400">{playerName}</span>
+            Jogando como <span className="text-blue-400">{playerName}</span>
           </p>
         </div>
         <button
           onClick={() => setShowCreateForm(true)}
           className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg font-medium transition-colors"
         >
-          + Create Room
+          + Criar Sala
         </button>
       </div>
 
       {rooms.length === 0 ? (
         <div className="text-center py-20 text-gray-500">
-          <p className="text-xl mb-2">No rooms available</p>
-          <p>Create a room to get started!</p>
+          <p className="text-xl mb-2">Nenhuma sala disponivel</p>
+          <p>Crie uma sala para comecar!</p>
         </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
