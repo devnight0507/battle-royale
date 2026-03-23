@@ -1,4 +1,4 @@
-import Phaser from "phaser";
+import * as Phaser from "phaser";
 
 export class BootScene extends Phaser.Scene {
   constructor() {
@@ -31,12 +31,11 @@ export class BootScene extends Phaser.Scene {
     deadGfx.generateTexture("player_dead", 32, 32);
     deadGfx.destroy();
 
-    // Generate attack slash texture
+    // Generate attack slash texture (simple triangle)
     const slashGfx = this.make.graphics({ x: 0, y: 0 });
     slashGfx.fillStyle(0xfbbf24, 0.8);
-    slashGfx.slice(24, 24, 20, Phaser.Math.DegToRad(330), Phaser.Math.DegToRad(30), false);
-    slashGfx.fillPath();
-    slashGfx.generateTexture("slash", 48, 48);
+    slashGfx.fillTriangle(0, 16, 32, 8, 32, 24);
+    slashGfx.generateTexture("slash", 32, 32);
     slashGfx.destroy();
 
     this.scene.start("GameScene");

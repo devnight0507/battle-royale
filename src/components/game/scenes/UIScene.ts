@@ -1,4 +1,4 @@
-import Phaser from "phaser";
+import * as Phaser from "phaser";
 import { getSocket } from "../../../lib/socket";
 import { GameState } from "../../../lib/types";
 
